@@ -44,6 +44,11 @@ public class CoffFileHeader implements StructConverter {
 		BinaryReader reader = getBinaryReader(provider);
 
 		f_magic = reader.readNextShort();
+
+		if (isBigEndianHeader()) {
+			reader.setLittleEndian(false);
+		}
+
 		f_nscns = reader.readNextShort();
 		f_timdat = reader.readNextInt();
 		f_symptr = reader.readNextInt();
@@ -54,15 +59,27 @@ public class CoffFileHeader implements StructConverter {
 		if (isCoffLevelOneOrTwo()) {
 			f_target_id = reader.readNextShort();
 		}
+
+		if (isLittleEndianFile()) {
+			reader.setLittleEndian(true);
+		}
 	}
 
 	private BinaryReader getBinaryReader(ByteProvider provider) {
-		BinaryReader reader = new BinaryReader(provider, true/*COFF is always LE!!!*/);
+		BinaryReader reader = new BinaryReader(provider, isLittleEndianFile());
 		return reader;
 	}
 
 	private boolean isCoffLevelOneOrTwo() {
 		return f_magic == CoffMachineType.TICOFF1MAGIC || f_magic == CoffMachineType.TICOFF2MAGIC;
+	}
+
+	private boolean isBigEndianHeader() {
+		return f_magic == CoffMachineType.IMAGE_FILE_MACHINE_ATT_80186 || f_magic == CoffMachineType.IMAGE_FILE_MACHINE_WE_32100;
+	}
+
+	private boolean isLittleEndianFile() {
+		return f_magic != CoffMachineType.IMAGE_FILE_MACHINE_WE_32100;
 	}
 
 	/**

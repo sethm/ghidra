@@ -210,6 +210,16 @@ public class CoffMachineType {
 	public final static short IMAGE_FILE_MACHINE_TI_TMS470 = 0x0097;
 
 	/**
+	 * AT&amp;T 80186
+	 */
+	public final static short IMAGE_FILE_MACHINE_ATT_80186 = 0x4201;
+
+	/**
+	 * Western Electric WE32100
+	 */
+	public final static short IMAGE_FILE_MACHINE_WE_32100 = 0x7001;
+
+	/**
 	 * Texas Instruments TMS320C5400
 	 */
 	public final static short IMAGE_FILE_MACHINE_TI_TMS320C5400 = 0x0098;

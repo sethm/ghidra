@@ -59,6 +59,10 @@ public class CoffSectionHeader implements StructConverter {
 
 		readName(reader);
 
+		if (isBigEndianHeader()) {
+			reader.setLittleEndian(false);
+		}
+
 		s_paddr = reader.readNextInt();
 		s_vaddr = reader.readNextInt();
 		s_size = reader.readNextInt();
@@ -70,6 +74,10 @@ public class CoffSectionHeader implements StructConverter {
 		s_flags = reader.readNextInt();
 		s_reserved = 0;
 		s_page = 0;
+
+		if (isLittleEndianFile()) {
+			reader.setLittleEndian(true);
+		}
 	}
 
 	protected void readName(BinaryReader reader) throws IOException {
@@ -86,6 +94,14 @@ public class CoffSectionHeader implements StructConverter {
 		else {
 			s_name = (new String(nameBytes)).trim();
 		}
+	}
+
+	private boolean isBigEndianHeader() {
+		return _header.getMachine() == CoffMachineType.IMAGE_FILE_MACHINE_ATT_80186;
+	}
+
+	private boolean isLittleEndianFile() {
+		return _header.getMachine() != CoffMachineType.IMAGE_FILE_MACHINE_WE_32100;
 	}
 
 	/**

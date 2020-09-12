@@ -254,7 +254,8 @@ public class CoffLoader extends AbstractLibrarySupportLoader {
 			if (monitor.isCancelled()) {
 				break;
 			}
-			if (symbol.isSection()) {
+			// WE32100 Sys V object files treat section symbols as base offsets.
+			if (symbol.isSection() && header.getMachine() != CoffMachineType.IMAGE_FILE_MACHINE_WE_32100) {
 				continue;
 			}
 /*

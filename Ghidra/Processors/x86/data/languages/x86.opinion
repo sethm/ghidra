@@ -47,6 +47,7 @@
         <constraint primary="x86_64"   processor="x86"     endian="little" size="64" />
     </constraint>
     <constraint loader="Common Object File Format (COFF)" compilerSpecID="gcc">
+        <constraint primary="23117"   processor="x86"          endian="little" size="16" variant="Real Mode"/>
         <constraint primary="332"     processor="x86"          endian="little" size="32" />
         <constraint primary="-31132"  processor="x86"          endian="little" size="64" />
     </constraint>
